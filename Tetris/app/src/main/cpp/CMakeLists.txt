@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.22.1)
+project(memorygg)
+add_library(memorygg SHARED memorygg-target-jni.cpp)
+find_library(log-lib log)
+target_link_libraries(memorygg ${log-lib})
