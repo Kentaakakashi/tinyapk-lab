@@ -1,0 +1,29 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'com.tetris'
+    compileSdk 35
+    ndkVersion '27.0.12077973'
+    defaultConfig {
+        applicationId 'com.tetris'
+        minSdk 26
+        targetSdk 28
+        versionCode 24
+        versionName '2.4-memorygg'
+        ndk { abiFilters 'arm64-v8a', 'armeabi-v7a' }
+        externalNativeBuild { cmake { cppFlags '-std=c++17 -Wall -Wextra' } }
+    }
+    externalNativeBuild {
+        cmake { path file('src/main/cpp/CMakeLists.txt'); version '3.22.1' }
+    }
+    sourceSets { main { aidl.srcDirs = ['src/main/aidl'] } }
+    buildTypes {
+        debug { applicationIdSuffix '.memorygg'; debuggable true }
+        release { minifyEnabled false }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    buildFeatures { aidl true }
+}
