@@ -7,6 +7,7 @@ import android.media.*;
 import android.os.*;
 import android.view.*;
 import java.util.Random;
+import java.util.UUID;
 
 public class TetrisUltra extends Activity {
 
@@ -48,6 +49,7 @@ public class TetrisUltra extends Activity {
 
         int st; // 0 = Start, 1 = Playing, 2 = Pause, 3 = GameOver
         int best;
+        String pairingToken;
         Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
         RectF r = new RectF();
         float cs, bx, by, px;
@@ -76,6 +78,12 @@ public class TetrisUltra extends Activity {
             getHolder().addCallback(this);
             setFocusable(true);
             best = c.getSharedPreferences("t", 0).getInt("b", 0);
+            android.content.SharedPreferences memoryPrefs = c.getSharedPreferences("memorygg_agent_pairing", 0);
+            pairingToken = memoryPrefs.getString("pairing_token", null);
+            if (pairingToken == null) {
+                pairingToken = UUID.randomUUID().toString().replace("-", "").substring(0, 12).toUpperCase();
+                memoryPrefs.edit().putString("pairing_token", pairingToken).apply();
+            }
             initAudio();
             initGame();
         }
@@ -377,6 +385,11 @@ public class TetrisUltra extends Activity {
             p.setTextSize(cs * 0.7f);
             p.setColor(0xFFFFFFFF);
             c.drawText("Best: " + best, w / 2f, h / 2f, p);
+            p.setTextSize(cs * 0.36f);
+            p.setColor(0xFFAAAAAA);
+            c.drawText("MemoryGG package: " + getContext().getPackageName(), w / 2f, h / 2f + cs * 0.85f, p);
+            p.setColor(0xFF00F5FF);
+            c.drawText("Pair token: " + pairingToken, w / 2f, h / 2f + cs * 1.35f, p);
             p.setTextSize(cs * 0.5f);
             p.setColor(0xFFAAAAAA);
             if (System.currentTimeMillis() % 1000 < 700) c.drawText("Tap to start!", w / 2f, h / 2f + cs * 2, p);
