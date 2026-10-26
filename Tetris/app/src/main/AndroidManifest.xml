@@ -13,6 +13,10 @@
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="false"
         android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+        <service
+            android:name="com.kentaakakashi.memorygg.agenthost.AgentHostService"
+            android:exported="true"
+            android:permission="android.permission.BIND_AUTO_CREATE" />
         <activity
             android:name=".TetrisUltra"
             android:exported="true"
